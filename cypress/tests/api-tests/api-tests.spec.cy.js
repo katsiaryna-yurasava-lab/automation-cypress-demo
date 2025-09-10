@@ -1,9 +1,11 @@
-import airportData from "../fixtures/airports.json"
+/// <reference types="cypress" />
+
+import airportData from "../../fixtures/airports.json"
 
 describe('Sauce demo API tests: /airports', () => {
 
-    before(function () {
-        cy.log('Send a GET request to the endpoint https://airportgap.com/api/airports')
+    beforeEach(function () {
+        cy.log('Send a GET request to the endpoint /airports')
         cy.request('GET', 'https://airportgap.com/api/airports')
             .then(response => {
                 cy.wrap(response).as('response')
@@ -19,14 +21,13 @@ describe('Sauce demo API tests: /airports', () => {
     it('Scenario 2: Verify Specific Airports', function () {
         cy.log(`Verify that the response includes the following airports: ${airportData.toString()}`)
         airportData.forEach(airport => {
-            cy.log(`The response includes ${airport}`)
             expect(this.response.body.data.some((item) => item.attributes.name === airport)).to.be.true
         })
     })
 })
 
 describe('Sauce demo API tests: /airports/distance', () => {
-    xit('Scenario 3: Verify Distance Between Airports', () => {
+    it('Scenario 3: Verify Distance Between Airports', () => {
         cy.request('POST', 'https://airportgap.com/api/airports/distance',
             {from: 'KIX', to: 'NRT'})
             .then(response => {

@@ -1,5 +1,5 @@
-import userData from "../fixtures/login-credentials.json"
-import products from "../fixtures/products-data.json"
+import userData from "../../fixtures/login-credentials.json"
+import products from "../../fixtures/products-data.json"
 
 describe('Sauce demo', () => {
 

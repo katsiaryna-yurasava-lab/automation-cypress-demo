@@ -8,7 +8,7 @@ module.exports = defineConfig({
     video: false,
     screenshots: false,
     env: {
-        "apiBaseUrl": "https://airportgap.com/api/"
+        "apiBaseUrl": "https://airportgap.com/api"
     },
     e2e: {
         baseUrl: 'https://www.saucedemo.com',

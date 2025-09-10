@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import airportData from "../../fixtures/airports.json"
 import {getAirports, getDistanceBetweenAirports} from "../../service/airport.api";
 
@@ -18,7 +16,7 @@ describe('Sauce demo API tests: /airports', () => {
         cy.log(`Verify that the response includes the following airports: ${airportData.toString()}`)
         getAirports().then(response => {
             airportData.forEach(airport => {
-                expect(this.response.body.data.some((item) => item.attributes.name === airport)).to.be.true
+                expect(response.body.data.some((item) => item.attributes.name === airport)).to.be.true
             })
         })
     })
@@ -29,7 +27,7 @@ describe('Sauce demo API tests: /airports/distance', () => {
         cy.log('Send a POST request to the endpoint /airports/distance with parameters for the airports KIX and NRT')
         getDistanceBetweenAirports({from: 'KIX', to: 'NRT'}).then(response => {
             cy.log('Verify that the calculated distance between these airports is greater than 400 km')
-            expect(response.body.data.attributes.kilometers > 400).to.be.true
+            expect(response.body.data.attributes.kilometers).to.be.greaterThan(400)
         })
     })
 })

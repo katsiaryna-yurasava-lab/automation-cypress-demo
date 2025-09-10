@@ -15,8 +15,6 @@ npm ci
 ```text
 automation-cypress-demo\
   - cypress\
-    - api-tests\
-    - downloads\
     - fixtures\
       - airports.json
       - login-credentials.json
@@ -32,6 +30,7 @@ automation-cypress-demo\
       - e2e\
         - sauce-demo.spec.cy.js
   - cypress.config.js
+  - package-lock.json
   - package.json
   - README.md
 ```

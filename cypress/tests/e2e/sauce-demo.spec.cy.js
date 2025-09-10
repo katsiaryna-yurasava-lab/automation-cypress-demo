@@ -1,5 +1,7 @@
 import userData from "../../fixtures/login-credentials.json"
 import products from "../../fixtures/products-data.json"
+import productPage from "../../page-objects/product.page"
+import loginPage from "../../page-objects/login.page";
 
 describe('Sauce demo', () => {
 
@@ -7,34 +9,28 @@ describe('Sauce demo', () => {
         cy.log('WHEN User navigate to https://www.saucedemo.com page')
         cy.visit('https://www.saucedemo.com')
         cy.log('AND enters correct username and password')
-        cy.login(userData.name, userData.password)
-
+        loginPage.login(userData.name, userData.password)
     })
 
     it('Scenario 1: Verify Inventory Items', () => {
         cy.log(`THEN There are ${products.length} elements presented at the page`)
-        cy.get('[data-test="inventory-list"]')
-            .find('[data-test="inventory-item"]')
+        productPage.productItems
             .should('have.lengthOf', products.length)
             .each(($item, index) => {
                 cy.log(`AND Data about the product #${index + 1} is correctly presented`)
-                cy.wrap($item).find('[data-test="inventory-item-name"]')
+                productPage.getProductItemNameElement($item)
                     .scrollTo('bottom', {ensureScrollable: false})
                     .should('have.text', products[index].name)
-
-                cy.wrap($item).find('[data-test="inventory-item-desc"]')
+                productPage.getProductDescriptionElement($item)
                     .should('have.text', products[index].description)
-
-                cy.wrap($item).find('[data-test="inventory-item-price"]')
+                productPage.getProductPriceElement($item)
                     .should('have.text', products[index].price)
             })
     })
 
     it('Scenario 2: Add Item to Cart', () => {
         const PRODUCT_NUMBER_TO_ADD = 3
-
-        let productIndex = 0
-        while (productIndex < PRODUCT_NUMBER_TO_ADD) {
+        for (let productIndex = 0; productIndex < PRODUCT_NUMBER_TO_ADD; productIndex++) {
             cy.log(`WHEN User adds the product #${productIndex + 1} into the bucket`)
             cy.get('[data-test="inventory-list"]')
                 .find('[data-test="inventory-item"]').eq(productIndex)
@@ -42,7 +38,6 @@ describe('Sauce demo', () => {
             cy.log(`THEN cart badge correctly displays the number ${productIndex + 1}`)
             cy.get('[data-test="shopping-cart-badge"]')
                 .should('have.text', (productIndex + 1).toString())
-            productIndex++
         }
     })
 })

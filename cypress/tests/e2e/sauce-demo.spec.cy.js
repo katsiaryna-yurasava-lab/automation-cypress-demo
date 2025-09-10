@@ -6,10 +6,11 @@ import loginPage from "../../page-objects/login.page";
 describe('Sauce demo', () => {
 
     beforeEach(function () {
-        cy.log('WHEN User navigate to https://www.saucedemo.com page')
-        cy.visit('https://www.saucedemo.com')
+        cy.log('WHEN User navigates to the application home page')
+        loginPage.open()
         cy.log('AND enters correct username and password')
         loginPage.login(userData.name, userData.password)
+
     })
 
     it('Scenario 1: Verify Inventory Items', () => {

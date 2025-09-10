@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "cypress run --spec 'cypress/tests/e2e/**/*.cy.*'",
+    "test:api": "cypress run --spec 'cypress/tests/api-tests/**/*.cy.*'",
+    "test:ci": "cypress run --browser chrome --headless"
+  },
   "devDependencies": {
     "cypress": "^15.1.0"
   }

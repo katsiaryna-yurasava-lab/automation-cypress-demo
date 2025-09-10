@@ -12,6 +12,9 @@ class LoginPage {
         return cy.get('#login-button')
     }
 
+    open() {
+        cy.visit('/')
+    }
     login(username, password) {
         this.userNameInput.type(username)
         this.userPasswordInput.type(password)

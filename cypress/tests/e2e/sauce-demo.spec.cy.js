@@ -7,10 +7,7 @@ describe('Sauce demo', () => {
         cy.log('WHEN User navigate to https://www.saucedemo.com page')
         cy.visit('https://www.saucedemo.com')
         cy.log('AND enters correct username and password')
-        cy.get('#user-name').type(userData.name)
-        cy.get('#password').type(userData.password)
-        cy.log("AND clicks Login button")
-        cy.get('#login-button').click()
+        cy.login(userData.name, userData.password)
 
     })
 
@@ -22,6 +19,7 @@ describe('Sauce demo', () => {
             .each(($item, index) => {
                 cy.log(`AND Data about the product #${index + 1} is correctly presented`)
                 cy.wrap($item).find('[data-test="inventory-item-name"]')
+                    .scrollTo('bottom', {ensureScrollable: false})
                     .should('have.text', products[index].name)
 
                 cy.wrap($item).find('[data-test="inventory-item-desc"]')
@@ -33,14 +31,18 @@ describe('Sauce demo', () => {
     })
 
     it('Scenario 2: Add Item to Cart', () => {
-        cy.log('WHEN User adds the first product into the bucket')
-        cy.get('[data-test="inventory-list"]')
-            .find('[data-test="inventory-item"]').eq(0)
-            .find('#add-to-cart-sauce-labs-backpack').click()
+        const PRODUCT_NUMBER_TO_ADD = 3
 
-        cy.log('THEN cart badge correctly displays the number 1')
-        cy.get('[data-test="shopping-cart-badge"]')
-            .should('have.text', '1')
-
+        let productIndex = 0
+        while (productIndex < PRODUCT_NUMBER_TO_ADD) {
+            cy.log(`WHEN User adds the product #${productIndex + 1} into the bucket`)
+            cy.get('[data-test="inventory-list"]')
+                .find('[data-test="inventory-item"]').eq(productIndex)
+                .find('button:contains("Add to cart")').click()
+            cy.log(`THEN cart badge correctly displays the number ${productIndex + 1}`)
+            cy.get('[data-test="shopping-cart-badge"]')
+                .should('have.text', (productIndex + 1).toString())
+            productIndex++
+        }
     })
 })

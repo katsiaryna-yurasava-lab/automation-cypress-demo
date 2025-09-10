@@ -13,9 +13,10 @@ describe('Sauce demo API tests: /airports', () => {
     })
 
     it('Scenario 1: Verify Airport Count', function () {
-        cy.log('Verify that the response contains exactly 30 airports.')
+        const EXPECTED_AIRPORT_NUMBER = 30
+        cy.log(`Verify that the response contains exactly ${EXPECTED_AIRPORT_NUMBER} airports.`)
         expect(this.response.body.data).not.to.be.empty
-        expect(this.response.body.data.length).to.eq(30)
+        expect(this.response.body.data.length).to.eq(EXPECTED_AIRPORT_NUMBER)
     })
 
     it('Scenario 2: Verify Specific Airports', function () {

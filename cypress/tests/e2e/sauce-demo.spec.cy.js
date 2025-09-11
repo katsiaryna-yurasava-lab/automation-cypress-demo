@@ -33,11 +33,9 @@ describe('Sauce demo', () => {
         const PRODUCT_NUMBER_TO_ADD = 3
         for (let productIndex = 0; productIndex < PRODUCT_NUMBER_TO_ADD; productIndex++) {
             cy.log(`WHEN User adds the product #${productIndex + 1} into the bucket`)
-            cy.get('[data-test="inventory-list"]')
-                .find('[data-test="inventory-item"]').eq(productIndex)
-                .find('button:contains("Add to cart")').click()
+            productPage.addProductToCard(productIndex)
             cy.log(`THEN cart badge correctly displays the number ${productIndex + 1}`)
-            cy.get('[data-test="shopping-cart-badge"]')
+            productPage.shoppingCardBadge
                 .should('have.text', (productIndex + 1).toString())
         }
     })
